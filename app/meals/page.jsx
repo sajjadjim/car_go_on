@@ -1,5 +1,6 @@
 import React from 'react'
 import MealSearch from './components/MealSearch';
+import Image from 'next/image';
 
 export default async function Meals({ searchParams }) {
 
@@ -26,7 +27,8 @@ export default async function Meals({ searchParams }) {
                 {meals?.map((meal) => (
                     <div key={meal.idMeal}>
                         <h2 className='text-lg font-semibold text-center'>{meal.strMeal}</h2>
-                        <img className='w-60 h-50 rounded-md' src={meal.strMealThumb} alt={meal.strMeal} />
+                        <Image className='w-60 h-50 rounded-md' width={500}
+                            height={500} src={meal.strMealThumb} alt={meal.strMeal} />
                     </div>
                 ))}
             </div>

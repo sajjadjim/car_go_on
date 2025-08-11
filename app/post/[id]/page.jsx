@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export default async function SinglePost({params}) {
     const p = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`);
     const post = await p.json();
