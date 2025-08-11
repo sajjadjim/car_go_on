@@ -5,7 +5,7 @@ export const dynamic = 'force-static'
 
 export async function GET() {
     const data = await dbConnect('practice_data').find({}).toArray();
-    return Response.json({ data, message: 'successfully run projects' })
+    return Response.json( data )
 }
 
 

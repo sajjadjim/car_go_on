@@ -1,17 +1,17 @@
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProductsPage() {
 
-    const res = await fetch('http://localhost:3000/api/items',{
-        cache: 'force-cache'
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items`);
     const products = await res.json();
 
 return (
     <div className="max-w-4xl mx-auto py-8 px-4">
         <h1 className="text-3xl font-bold mb-6 text-center">Products</h1>
         <ul className="space-y-6">
-            {products.data.map(product => (
+            {products?.map(product => (
                 <li
                     key={product._id}
                     className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow"

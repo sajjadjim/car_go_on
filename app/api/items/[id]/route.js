@@ -9,11 +9,9 @@ export async function GET(req, { params }) {
     _id: new ObjectId(p.id),
   });
 
-  return Response.json({
+  return Response.json(
     singleDataFind,
-    params: p,
-    message: "Successfully fetched data",
-  });
+  );
 }
 
 // DELETE single data

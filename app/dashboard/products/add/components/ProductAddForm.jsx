@@ -1,7 +1,10 @@
 "use client";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function ProductAddForm() {
+  const router = useRouter();
+
   const getCurrentDateTime = () => {
     const now = new Date();
     // Format to "YYYY-MM-DDTHH:MM" for datetime-local input
@@ -29,7 +32,7 @@ export default function ProductAddForm() {
     e.preventDefault();
     console.log(formData);
 
-    const res = await fetch("http://localhost:3000/api/items", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +50,8 @@ export default function ProductAddForm() {
         status: "Pending",
         createdAt: getCurrentDateTime(),
       });
-      alert("✅ Product added successfully!");
+      // alert("✅ Product added successfully!");
+      router.push('/products')
     } else {
       alert("❌ Failed to add product.");
     }
