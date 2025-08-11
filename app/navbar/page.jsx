@@ -16,7 +16,7 @@ import {
 const navItems = [
   { name: 'Home', path: '/', icon: <FaHome /> },
   { name: 'Cars', path: '/cars', icon: <FaCar /> },
-  { name: 'Add Car', path: '/add-car', icon: <FaPlusCircle /> },
+  { name: 'Add Car', path: '/addCar', icon: <FaPlusCircle /> },
   { name: 'Showrooms', path: '/showrooms', icon: <FaMapMarkedAlt /> },
   { name: 'Filter', path: '/filter', icon: <FaFilter /> },
 ];
