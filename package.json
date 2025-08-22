@@ -6,15 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "export": "next export -o out"   
+    "lint": "next lint"
   },
   "dependencies": {
     "firebase": "^12.1.0",
     "mongodb": "^6.18.0",
-    "next": "15.4.3",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
+    "next": "^15.5.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
     "react-icons": "^5.5.0",
     "react-slick": "^0.30.3",
