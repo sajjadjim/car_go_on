@@ -1,9 +1,7 @@
-// app/layout.jsx (Server Component - no "use client")
-import Footer from "./footer/page";
 import "./globals.css";
 import Navbar from "./navbar/page";
-import Home from "./page";
- // <-- your existing Home.jsx (component)
+import Footer from "./footer/page";
+import AuthProvider from "./context/AuthContext";
 
 export const metadata = {
   title: "Car GoON",
@@ -14,13 +12,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-        <Navbar />
-        <main style={{ flex: 1 }}>
-          {children}
-          {/* Always show Home items on every route */}
-          <Home />
-        </main>
-        <Footer />
+        <AuthProvider>
+          <Navbar />
+          <main style={{ flex: 1 }}>{children}</main>
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

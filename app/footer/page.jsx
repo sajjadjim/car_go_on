@@ -4,7 +4,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaEnvelope, FaMapMarkerAlt } from '
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white py-8 mt-10">
+    <footer className="bg-black text-white py-8 pt-10">
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
 
         {/* About */}
