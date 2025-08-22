@@ -12,15 +12,17 @@ export default async function EditCarPage({ params }) {
   if (!car) return notFound();
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
-      <h1 className="text-2xl md:text-3xl font-bold">
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+      <div className="max-w-5xl  mx-auto px-4 py-6">
+      <h1 className="text-2xl md:text-3xl text-white font-bold">
         Edit Car — {car.make} {car.model}
       </h1>
-      <p className="text-gray-600 mt-1">ID: {car._id}</p>
+      <p className="text-gray-200 mt-1">ID: {car._id}</p>
 
-      <div className="mt-5">
+      <div className="pt-5 ">
         <EditCarForm initialCar={car} />
       </div>
+    </div>
     </div>
   );
 }

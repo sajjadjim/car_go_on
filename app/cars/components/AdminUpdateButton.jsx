@@ -11,7 +11,7 @@ export default function AdminUpdateButton({ carId }) {
 
   function onSubmit(e) {
     e.preventDefault();
-    if (pwd === "jim12345") {
+    if (pwd === "confirm") {
       setErr("");
       setOpen(false);
       router.push(`/cars/${carId}/edit`);
@@ -34,6 +34,7 @@ export default function AdminUpdateButton({ carId }) {
           <div className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl">
             <h3 className="text-lg font-semibold">Admin Authentication</h3>
             <p className="text-sm text-gray-600 mt-1">Enter the admin password to edit this car.</p>
+            <p className="text-sm text-gray-600 mt-1">write here - <span className="font-semibold">confirm</span></p>
 
             <form onSubmit={onSubmit} className="mt-4 space-y-3">
               <input

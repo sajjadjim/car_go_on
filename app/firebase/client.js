@@ -1,16 +1,15 @@
-// app/firebase/client.js
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// (Optionally move these to env vars for security in CI)
 const firebaseConfig = {
-  apiKey: "AIzaSyAB6KdNNKT-C_Vi9yLl9V6QYumcvYTV5OE",
-  authDomain: "car-go-on.firebaseapp.com",
-  projectId: "car-go-on",
-  storageBucket: "car-go-on.firebasestorage.app",
-  messagingSenderId: "364584407286",
-  appId: "1:364584407286:web:783997e2e8a609ef0f1cd7",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+// Ensure no duplicate initialization
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
