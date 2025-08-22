@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -13,22 +13,27 @@ import {
   FaTimes,
   FaUserCircle,
 } from "react-icons/fa";
-import { useAuth } from "@/app/context/AuthContext"; // <-- use your Auth context
-
-const navItems = [
-  { name: "Home", path: "/", icon: <FaHome /> },
-  { name: "Cars", path: "/cars", icon: <FaCar /> },
-  { name: "Add Car", path: "/addCar", icon: <FaPlusCircle /> },
-  { name: "Showrooms", path: "/showrooms", icon: <FaMapMarkedAlt /> },
-  { name: "Filter", path: "/filter", icon: <FaFilter /> },
-];
+import { useAuth } from "@/app/context/AuthContext";
 
 const Navbar = () => {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user } = useAuth(); // <-- read current user
+  const { user } = useAuth();
 
   const isActive = (path) => pathname === path;
+
+  // Build nav list based on auth state
+  const navItems = useMemo(() => {
+    const base = [
+      { name: "Home", path: "/", icon: <FaHome /> },
+      { name: "Cars", path: "/cars", icon: <FaCar /> },
+      { name: "Showrooms", path: "/showrooms", icon: <FaMapMarkedAlt /> },
+      { name: "Filter", path: "/filter", icon: <FaFilter /> },
+    ];
+    // Only show "Add Car" when logged in
+    if (user) base.splice(2, 0, { name: "Add Car", path: "/addCar", icon: <FaPlusCircle /> });
+    return base;
+  }, [user]);
 
   return (
     <nav className="bg-gray-900 text-white shadow-md">
@@ -54,7 +59,7 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* RIGHT SIDE: Auth area */}
+          {/* RIGHT: Auth area */}
           {!user ? (
             <div className="flex items-center gap-3 ml-4">
               <Link
@@ -106,7 +111,7 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Mobile auth buttons under nav */}
+          {/* Mobile auth buttons */}
           {!user ? (
             <div className="pt-2 flex gap-3">
               <Link

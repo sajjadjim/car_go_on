@@ -1,10 +1,13 @@
 import React from 'react'
 import AddCarPage from './components/AddCarPage'
+import AuthGuard from '../components/AuthGuard'
 
 export default function page() {
   return (
     <div>
-      <AddCarPage></AddCarPage>
+     <AuthGuard>
+       <AddCarPage></AddCarPage>
+     </AuthGuard>
     </div>
   )
 }
