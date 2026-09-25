@@ -52,7 +52,7 @@ const Navbar = () => {
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-xl font-black tracking-tight text-white">
+              <span className="text-xl font-black tracking-tight ">
                 CarGo<span className="text-amber-400">ON</span>
               </span>
               <span className="px-1.5 py-0.5 rounded text-[10px] font-black bg-emerald-500 text-slate-950">
