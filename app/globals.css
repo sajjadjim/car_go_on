@@ -6,49 +6,68 @@
   color-scheme: light dark;
 }
 
+/* =========================================
+   LIGHT MODE TOKENS & SYSTEM
+   ========================================= */
 html.light {
   color-scheme: light;
-}
 
-html.dark {
-  color-scheme: dark;
+  /* Dynamically re-map slate palette so all Tailwind utilities adapt natively */
+  --color-slate-950: #f8fafc;
+  --color-slate-900: #ffffff;
+  --color-slate-800: #e2e8f0;
+  --color-slate-700: #cbd5e1;
+  --color-slate-600: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+  --color-slate-50: #020617;
 }
-
-/* =========================================
-   LIGHT MODE ADAPTATION (Automatic & Manual)
-   ========================================= */
 
 html.light body {
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
+  background-color: #f8fafc;
+  color: #0f172a;
 }
 
 html.light header,
 html.light nav {
-  background-color: rgba(255, 255, 255, 0.92) !important;
-  border-color: #e2e8f0 !important;
-  color: #0f172a !important;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-color: #e2e8f0;
+  color: #0f172a;
 }
 
 html.light footer {
-  background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  color: #475569 !important;
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+  color: #475569;
 }
 
-html.light .bg-slate-950 {
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
+/* Light mode heading typography */
+html.light h1:not(.keep-text-color),
+html.light h2:not(.keep-text-color),
+html.light h3:not(.keep-text-color),
+html.light h4:not(.keep-text-color) {
+  color: #0f172a;
 }
 
+/* Ensure cards pop with crisp border and subtle elevation in light mode */
 html.light .bg-slate-900,
 html.light .bg-slate-900\/90,
 html.light .bg-slate-900\/80,
 html.light .bg-slate-900\/60,
 html.light .bg-slate-900\/40 {
-  background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+  background-color: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06);
+}
+
+html.light .bg-slate-950,
+html.light .bg-slate-950\/90,
+html.light .bg-slate-950\/60,
+html.light .bg-slate-950\/50 {
+  background-color: #f8fafc;
 }
 
 html.light .border-slate-800,
@@ -56,32 +75,8 @@ html.light .border-slate-800\/80,
 html.light .border-slate-800\/60,
 html.light .border-slate-800\/40,
 html.light .border-slate-700,
-html.light .border-slate-700\/80,
-html.light .border-slate-700\/60 {
-  border-color: #e2e8f0 !important;
-}
-
-html.light .bg-slate-800,
-html.light .bg-slate-800\/80,
-html.light .bg-slate-800\/60,
-html.light .bg-slate-800\/40 {
-  background-color: #f1f5f9 !important;
-  border-color: #e2e8f0 !important;
-}
-
-html.light .text-white {
-  color: #0f172a !important;
-}
-
-html.light .text-slate-100,
-html.light .text-slate-200,
-html.light .text-slate-300 {
-  color: #1e293b !important;
-}
-
-html.light .text-slate-400,
-html.light .text-slate-500 {
-  color: #64748b !important;
+html.light .border-slate-700\/80 {
+  border-color: #e2e8f0;
 }
 
 html.light input,
@@ -97,31 +92,50 @@ html.light textarea::placeholder {
   color: #94a3b8 !important;
 }
 
-html.light .bg-slate-950\/50,
-html.light .bg-slate-950\/60,
-html.light .bg-black\/60,
-html.light .bg-black\/30 {
-  background-color: #f8fafc !important;
-  border-color: #e2e8f0 !important;
-}
-
-/* Light mode specific badge color enhancement */
+/* Light mode specific badge color enhancements */
 html.light .text-amber-400 {
-  color: #b45309 !important;
+  color: #b45309;
 }
 
 html.light .text-emerald-400 {
-  color: #047857 !important;
+  color: #047857;
 }
 
 html.light .bg-amber-400\/10 {
-  background-color: #fef3c7 !important;
-  border-color: #fde68a !important;
+  background-color: #fef3c7;
+  border-color: #fde68a;
+  color: #92400e;
 }
 
-html.light .bg-emerald-500\/10 {
-  background-color: #d1fae5 !important;
-  border-color: #a7f3d0 !important;
+html.light .bg-emerald-500\/10,
+html.light .bg-emerald-400\/10 {
+  background-color: #d1fae5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+/* =========================================
+   DARK MODE TOKENS & SYSTEM
+   ========================================= */
+html.dark {
+  color-scheme: dark;
+
+  --color-slate-950: #020617;
+  --color-slate-900: #0f172a;
+  --color-slate-800: #1e293b;
+  --color-slate-700: #334155;
+  --color-slate-600: #475569;
+  --color-slate-500: #64748b;
+  --color-slate-400: #94a3b8;
+  --color-slate-300: #cbd5e1;
+  --color-slate-200: #e2e8f0;
+  --color-slate-100: #f1f5f9;
+  --color-slate-50: #f8fafc;
+}
+
+html.dark body {
+  background-color: #020617;
+  color: #f8fafc;
 }
 
 /* Smooth theme transition */
@@ -129,10 +143,9 @@ html,
 body,
 header,
 nav,
-footer,
-div,
-section {
+footer {
   transition-property: background-color, border-color, color;
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
+
