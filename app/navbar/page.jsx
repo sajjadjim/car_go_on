@@ -16,6 +16,7 @@ import {
   FaCalculator,
 } from "react-icons/fa";
 import { useAuth } from "@/app/context/AuthContext";
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -88,9 +89,10 @@ const Navbar = () => {
             </Link>
           ))}
         </nav>
-
         {/* Desktop Right CTA & Auth */}
         <div className="hidden sm:flex items-center gap-3">
+          <ThemeToggle />
+
           <Link
             href="/addCar"
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-md shadow-amber-400/20 transition-all duration-200"
@@ -126,6 +128,7 @@ const Navbar = () => {
 
         {/* Mobile Hamburger Toggle */}
         <div className="lg:hidden flex items-center gap-2">
+          <ThemeToggle />
           <Link
             href="/addCar"
             className="p-2 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1"

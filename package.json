@@ -22,5 +22,15 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "tailwindcss": "^4"
+  },
+  "allowScripts": {
+    "@firebase/util": true,
+    "@firebase/util@1.13.0": true,
+    "@tailwindcss/oxide": true,
+    "@tailwindcss/oxide@4.1.12": true,
+    "protobufjs": true,
+    "protobufjs@7.5.4": true,
+    "sharp": true,
+    "sharp@0.34.3": true
   }
 }

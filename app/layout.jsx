@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "./navbar/page";
 import Footer from "./footer/page";
 import AuthProvider from "./context/AuthContext";
+import ThemeProvider from "./context/ThemeContext";
 
 export const metadata = {
   title: "CarGoON BD | Buy & Sell Cars and Bikes in Bangladesh",
@@ -13,18 +14,47 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#020617",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#020617" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
 };
+
+const themeInitScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem('cargoon_theme');
+    var isDark = stored === 'dark' || (!stored || stored === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var root = document.documentElement;
+    if (isDark) {
+      root.classList.add('dark');
+      root.classList.remove('light');
+      root.setAttribute('data-theme', 'dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      root.classList.remove('dark');
+      root.classList.add('light');
+      root.setAttribute('data-theme', 'light');
+      root.style.colorScheme = 'light';
+    }
+  } catch(e) {}
+})();
+`;
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="dark">
-      <body className="bg-slate-950 text-slate-100 antialiased min-h-screen flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
-        <AuthProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </AuthProvider>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body className="antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
+        <ThemeProvider>
+          <AuthProvider>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
