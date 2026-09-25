@@ -3,7 +3,7 @@
 import dbConnect from "@/lib/dbConnect";
 import { ObjectId } from "mongodb";
 
-export async function getCarById(id) {
+export async function getBikeById(id) {
   if (!id) return null;
   try {
     let query = {};
@@ -12,11 +12,11 @@ export async function getCarById(id) {
     } else {
       query = { id: id };
     }
-    const doc = await dbConnect("cars").findOne(query);
+    const doc = await dbConnect("bikes").findOne(query);
     if (!doc) return null;
     return JSON.parse(JSON.stringify(doc));
   } catch (error) {
-    console.error("Error fetching car by id:", error);
+    console.error("Error fetching bike by id:", error);
     return null;
   }
 }

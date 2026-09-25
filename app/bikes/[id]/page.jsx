@@ -1,24 +1,21 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getCarById } from "@/app/actions/car_action/getCarById";
-import { getCars } from "@/app/actions/car_action/getCars";
-import AdminUpdateButton from "../components/AdminUpdateButton";
+import { getBikeById } from "@/app/actions/bike_action/getBikeById";
+import { getBikes } from "@/app/actions/bike_action/getBikes";
 import {
-  FaCarSide,
+  FaMotorcycle,
   FaMapMarkerAlt,
   FaGasPump,
   FaCogs,
-  FaRoad,
-  FaUsers,
   FaCalendarAlt,
   FaShieldAlt,
   FaMoneyBillWave,
-  FaStar,
   FaPhoneAlt,
   FaWhatsapp,
   FaCheckCircle,
   FaArrowLeft,
   FaCalculator,
+  FaTachometerAlt,
   FaFileContract,
 } from "react-icons/fa";
 import { formatBDPrice, formatBDT } from "@/lib/vehicleUtils";
@@ -37,33 +34,33 @@ function SpecItem({ icon, label, value }) {
   );
 }
 
-export default async function CarDetailsPage({ params }) {
+export default async function BikeDetailsPage({ params }) {
   const { id } = await params;
-  const car = await getCarById(id);
-  if (!car) return notFound();
+  const bike = await getBikeById(id);
+  if (!bike) return notFound();
 
-  const title = `${car.make} ${car.model} ${car.trim ?? ""}`.trim();
-  const images = (car.images && car.images.length > 0)
-    ? car.images
-    : ["https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=1200&auto=format&fit=crop"];
+  const title = `${bike.make} ${bike.model} ${bike.trim ?? ""}`.trim();
+  const images = (bike.images && bike.images.length > 0)
+    ? bike.images
+    : ["https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1200&auto=format&fit=crop"];
 
-  const allCars = await getCars();
-  const similarCars = allCars
-    .filter((c) => (c._id || c.id) !== (car._id || car.id))
+  const allBikes = await getBikes();
+  const similarBikes = allBikes
+    .filter((b) => (b._id || b.id) !== (bike._id || bike.id))
     .slice(0, 3);
 
-  // EMI sample calculation (30% down, 11% interest, 48 months for cars)
-  const price = Number(car.price_bdt) || 0;
+  // EMI sample calculation (30% down, 11% interest, 36 months)
+  const price = Number(bike.price_bdt) || 0;
   const downPayment = Math.round(price * 0.3);
   const loanAmount = price - downPayment;
   const monthlyRate = 0.11 / 12;
-  const months = 48;
+  const months = 36;
   const estimatedEMI = loanAmount > 0
     ? Math.round((loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1))
     : 0;
 
   const whatsappMessage = encodeURIComponent(
-    `Hello! I saw your ${title} listed on CarGoON BD for ${formatBDPrice(car.price_bdt)}. Is it still available?`
+    `Hello! I saw your ${title} listed on CarGoON BD for ${formatBDPrice(bike.price_bdt)}. Is it still available?`
   );
 
   return (
@@ -72,14 +69,14 @@ export default async function CarDetailsPage({ params }) {
         {/* Breadcrumb / Back Link */}
         <div className="mb-6 flex items-center justify-between">
           <Link
-            href="/cars"
-            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-amber-400 transition"
+            href="/bikes"
+            className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-emerald-400 transition"
           >
-            <FaArrowLeft /> Back to all cars
+            <FaArrowLeft /> Back to all bikes
           </Link>
 
           <span className="text-xs bg-slate-900 border border-slate-800 text-slate-400 px-3 py-1 rounded-full">
-            Category: <strong className="text-white">Automobile / Car</strong>
+            Category: <strong className="text-white">Motorcycle / Bike</strong>
           </span>
         </div>
 
@@ -87,37 +84,37 @@ export default async function CarDetailsPage({ params }) {
         <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 backdrop-blur-md mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400/10 text-amber-400 border border-amber-400/30">
-                {car.condition || "Verified Car"}
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                {bike.condition || "Verified Bike"}
               </span>
-              {car.body_type && (
+              {bike.bike_type && (
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-                  {car.body_type}
+                  {bike.bike_type}
                 </span>
               )}
-              {car.fuel_type && (
+              {bike.engine_cc && (
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
-                  {car.fuel_type}
+                  {bike.engine_cc} CC
                 </span>
               )}
             </div>
 
             <h1 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight">
               {title} <span className="text-slate-500 font-normal">—</span>{" "}
-              <span className="text-amber-400 font-bold">{car.year}</span>
+              <span className="text-amber-400 font-bold">{bike.year}</span>
             </h1>
 
             <p className="mt-2 text-sm text-slate-400 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-amber-400" />
+              <FaMapMarkerAlt className="text-emerald-400" />
               <span>
-                {car.location?.area ? `${car.location.area}, ` : ""}
-                {car.location?.city || "Dhaka"}, {car.location?.country || "Bangladesh"}
+                {bike.location?.area ? `${bike.location.area}, ` : ""}
+                {bike.location?.city || "Dhaka"}, {bike.location?.country || "Bangladesh"}
               </span>
-              {car.brta_reg && (
+              {bike.brta_reg && (
                 <>
                   <span className="text-slate-600">•</span>
-                  <span className="text-amber-300 font-mono bg-amber-950/60 border border-amber-800/60 px-2 py-0.5 rounded text-xs">
-                    BRTA: {car.brta_reg}
+                  <span className="text-emerald-300 font-mono bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded text-xs">
+                    BRTA: {bike.brta_reg}
                   </span>
                 </>
               )}
@@ -127,12 +124,12 @@ export default async function CarDetailsPage({ params }) {
           {/* Pricing Highlight */}
           <div className="md:text-right p-4 rounded-xl bg-slate-950 border border-slate-800">
             <div className="text-xs uppercase tracking-wider text-slate-400">Bangladeshi Asking Price</div>
-            <div className="text-3xl font-black text-amber-400 flex items-center md:justify-end gap-1.5 mt-0.5">
+            <div className="text-3xl font-black text-emerald-400 flex items-center md:justify-end gap-1.5 mt-0.5">
               <FaMoneyBillWave className="text-2xl" />
-              <span>{formatBDPrice(car.price_bdt)}</span>
+              <span>{formatBDPrice(bike.price_bdt)}</span>
             </div>
             <div className="text-xs text-slate-400 font-mono mt-1">
-              Exact BDT: {formatBDT(car.price_bdt)}
+              Exact BDT: {formatBDT(bike.price_bdt)}
             </div>
           </div>
         </div>
@@ -164,7 +161,7 @@ export default async function CarDetailsPage({ params }) {
             ))}
             {images.length === 1 && (
               <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 flex flex-col items-center justify-center text-center text-slate-500 h-full">
-                <FaCarSide size={40} className="mb-2 opacity-40 text-amber-400" />
+                <FaMotorcycle size={40} className="mb-2 opacity-40 text-emerald-400" />
                 <p className="text-xs">Original Bangladeshi seller verified photos</p>
               </div>
             )}
@@ -175,86 +172,86 @@ export default async function CarDetailsPage({ params }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Info */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Key Specs */}
+            {/* Technical Specifications */}
             <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
               <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-4">
-                <FaCogs className="text-amber-400" /> Key Vehicle Specifications
+                <FaCogs className="text-emerald-400" /> Technical Specifications
               </h2>
 
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <SpecItem
-                  icon={<FaCarSide className="text-amber-400" />}
-                  label="Body Type"
-                  value={car.body_type}
+                  icon={<FaCogs className="text-emerald-400" />}
+                  label="Engine Displacement"
+                  value={bike.engine_cc ? `${bike.engine_cc} cc` : null}
+                />
+                <SpecItem
+                  icon={<FaTachometerAlt className="text-amber-400" />}
+                  label="Cooling System"
+                  value={bike.cooling}
+                />
+                <SpecItem
+                  icon={<FaShieldAlt className="text-emerald-400" />}
+                  label="Braking System"
+                  value={bike.brake_type}
+                />
+                <SpecItem
+                  icon={<FaGasPump className="text-sky-400" />}
+                  label="Fuel Supply"
+                  value={bike.fuel_system}
                 />
                 <SpecItem
                   icon={<FaGasPump className="text-amber-400" />}
-                  label="Fuel Type"
-                  value={car.fuel_type}
-                />
-                <SpecItem
-                  icon={<FaCogs className="text-sky-400" />}
-                  label="Transmission"
-                  value={car.transmission}
-                />
-                <SpecItem
-                  icon={<FaRoad className="text-emerald-400" />}
-                  label="Drivetrain"
-                  value={car.drivetrain}
-                />
-                <SpecItem
-                  icon={<FaUsers className="text-amber-400" />}
-                  label="Seating Capacity"
-                  value={car.seats ? `${car.seats} Seats` : null}
-                />
-                <SpecItem
-                  icon={<FaCalendarAlt className="text-emerald-400" />}
-                  label="Odometer (Mileage)"
-                  value={typeof car.mileage_km === "number" ? `${car.mileage_km.toLocaleString()} km` : "—"}
+                  label="Fuel Economy (Mileage)"
+                  value={bike.mileage_kmpl ? `${bike.mileage_kmpl} km/l` : null}
                 />
                 <SpecItem
                   icon={<FaCogs className="text-slate-400" />}
-                  label="Engine Displacement"
-                  value={
-                    car.engine?.displacement_cc
-                      ? `${car.engine.displacement_cc} cc`
-                      : car.engine?.displacement_l
-                      ? `${car.engine.displacement_l} L`
-                      : "1500 cc"
-                  }
+                  label="Transmission"
+                  value={bike.transmission}
+                />
+                <SpecItem
+                  icon={<FaCalendarAlt className="text-emerald-400" />}
+                  label="Odometer (KM Run)"
+                  value={typeof bike.mileage_km === "number" ? `${bike.mileage_km.toLocaleString()} km` : "—"}
                 />
                 <SpecItem
                   icon={<FaShieldAlt className="text-sky-400" />}
-                  label="Horsepower"
-                  value={car.engine?.horsepower ? `${car.engine.horsepower} HP` : null}
+                  label="Front Brake"
+                  value={bike.front_brake}
                 />
                 <SpecItem
                   icon={<FaShieldAlt className="text-amber-400" />}
-                  label="Exterior / Interior"
-                  value={`${car.color_exterior || "White"} / ${car.color_interior || "Black"}`}
+                  label="Rear Brake"
+                  value={bike.rear_brake}
                 />
               </div>
+
+              {bike.suspension && (
+                <div className="mt-4 p-3.5 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-300">
+                  <span className="font-semibold text-emerald-400">Suspension Setup:</span> {bike.suspension}
+                </div>
+              )}
             </div>
 
-            {/* Features & Equipment */}
+            {/* Key Features & Equipment */}
             <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
               <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-4">
-                <FaStar className="text-amber-400" /> Comfort, Safety & Features
+                <FaCheckCircle className="text-emerald-400" /> Key Features & Electronics
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {(car.features || [
-                  "Push Start & Smart Key",
-                  "Airbags & ABS",
-                  "Rear Camera & Parking Sensors",
+                {(bike.features || [
+                  "Dual Channel ABS",
+                  "Digital TFT Cockpit",
+                  "LED Lighting Setup",
+                  "Tubeless Tyres",
                   "Alloy Wheels",
-                  "Touchscreen Multimedia System",
                 ]).map((f, i) => (
                   <div
                     key={i}
                     className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-950/50 border border-slate-800/80 text-sm text-slate-200"
                   >
-                    <span className="w-5 h-5 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center text-xs shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs shrink-0">
                       ✓
                     </span>
                     <span>{f}</span>
@@ -266,26 +263,26 @@ export default async function CarDetailsPage({ params }) {
             {/* BRTA & Paperwork Status in BD */}
             <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800">
               <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-4">
-                <FaFileContract className="text-amber-400" /> Bangladesh BRTA Registration & Paperwork
+                <FaFileContract className="text-amber-400" /> Bangladesh BRTA & Documentation Status
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
                 <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-xs text-slate-400 block">Registration Series</span>
+                  <span className="text-xs text-slate-400 block">BRTA Number Plate</span>
                   <span className="font-mono font-bold text-white mt-1 block">
-                    {car.brta_reg || "Dhaka Metro Registered"}
+                    {bike.brta_reg || "Dhaka Metro Registered"}
                   </span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
-                  <span className="text-xs text-slate-400 block">Tax Token & Fitness</span>
+                  <span className="text-xs text-slate-400 block">Tax Token Validity</span>
                   <span className="font-semibold text-emerald-400 mt-1 block">
-                    {car.tax_token_validity ? `Valid upto ${car.tax_token_validity}` : "Updated Papers"}
+                    {bike.tax_token_validity ? `Updated upto ${bike.tax_token_validity}` : "Updated"}
                   </span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-950/60 border border-slate-800">
                   <span className="text-xs text-slate-400 block">Ownership Status</span>
                   <span className="font-semibold text-white mt-1 block">
-                    1st Party / Smart Card Ready
+                    1st Party / Name Transfer Possible
                   </span>
                 </div>
               </div>
@@ -297,32 +294,32 @@ export default async function CarDetailsPage({ params }) {
             {/* Seller Contact Card */}
             <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 shadow-xl backdrop-blur-md sticky top-6">
               <div className="flex items-center gap-3 pb-4 border-b border-slate-800">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-400 to-yellow-500 text-slate-950 font-bold flex items-center justify-center text-xl">
-                  {car.seller_name ? car.seller_name[0] : "C"}
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-slate-950 font-bold flex items-center justify-center text-xl">
+                  {bike.seller_name ? bike.seller_name[0] : "B"}
                 </div>
                 <div>
                   <h3 className="font-bold text-white leading-tight">
-                    {car.seller_name || "Verified Car Seller"}
+                    {bike.seller_name || "Verified Bike Seller"}
                   </h3>
-                  <div className="text-xs text-amber-400 flex items-center gap-1 mt-0.5">
-                    <FaCheckCircle size={11} /> {car.seller_type || "Certified Dealer"}
+                  <div className="text-xs text-emerald-400 flex items-center gap-1 mt-0.5">
+                    <FaCheckCircle size={11} /> {bike.seller_type || "Authorized Dealer"}
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="mt-5 space-y-3">
-                {car.seller_phone && (
+                {bike.seller_phone && (
                   <>
                     <a
-                      href={`tel:${car.seller_phone}`}
-                      className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold text-base shadow-lg shadow-amber-400/20 transition-all duration-200"
+                      href={`tel:${bike.seller_phone}`}
+                      className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-bold text-base shadow-lg shadow-emerald-500/20 transition-all duration-200"
                     >
-                      <FaPhoneAlt /> Call {car.seller_phone}
+                      <FaPhoneAlt /> Call {bike.seller_phone}
                     </a>
 
                     <a
-                      href={`https://wa.me/${car.seller_phone.replace(/[^0-9]/g, "")}?text=${whatsappMessage}`}
+                      href={`https://wa.me/${bike.seller_phone.replace(/[^0-9]/g, "")}?text=${whatsappMessage}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-emerald-500/40 bg-emerald-950/40 hover:bg-emerald-900/40 text-emerald-300 font-semibold text-sm transition"
@@ -336,12 +333,8 @@ export default async function CarDetailsPage({ params }) {
                   href="/calculator"
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-700 bg-slate-800/60 hover:bg-slate-800 text-slate-300 text-xs font-medium transition"
                 >
-                  <FaCalculator /> Calculate Car Loan EMI
+                  <FaCalculator /> Calculate Loan EMI
                 </Link>
-
-                <div className="pt-2">
-                  <AdminUpdateButton carId={car._id || car.id} />
-                </div>
               </div>
 
               {/* Estimated Monthly EMI */}
@@ -349,44 +342,44 @@ export default async function CarDetailsPage({ params }) {
                 <div className="mt-5 p-4 rounded-xl bg-slate-950 border border-slate-800">
                   <div className="flex items-center justify-between text-xs text-slate-400">
                     <span>Est. Bank EMI</span>
-                    <span className="text-amber-400 font-bold">~ ৳{estimatedEMI.toLocaleString()}/mo</span>
+                    <span className="text-emerald-400 font-bold">~ ৳{estimatedEMI.toLocaleString()}/mo</span>
                   </div>
                   <p className="mt-1 text-[11px] text-slate-500">
-                    Based on 30% down payment ({formatBDPrice(downPayment)}) & 48-month tenure at 11% interest.
+                    Based on 30% down payment ({formatBDPrice(downPayment)}) & 36-month tenure at 11% interest.
                   </p>
                 </div>
               )}
 
-              {/* Safety Checklist */}
+              {/* Safety & Inspection Checklist */}
               <div className="mt-5 pt-4 border-t border-slate-800 text-xs space-y-2 text-slate-400">
                 <div className="flex items-center gap-2 text-slate-300 font-semibold">
-                  <FaShieldAlt className="text-amber-400" /> Buyer Safety Guarantee
+                  <FaShieldAlt className="text-emerald-400" /> Buyer Safety Guarantee
                 </div>
-                <div>✓ Physical inspection and test-drive before purchase</div>
-                <div>✓ Verify BRTA registration papers & chassis number</div>
-                <div>✓ Authenticate Japanese Auction Sheet for reconditioned cars</div>
+                <div>✓ Always inspect the motorcycle in daylight</div>
+                <div>✓ Verify engine & chassis number with BRTA smart card</div>
+                <div>✓ Never transfer funds before physical vehicle handover</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Similar Cars in Bangladesh */}
-        {similarCars.length > 0 && (
+        {/* Similar Bikes in Bangladesh */}
+        {similarBikes.length > 0 && (
           <div className="mt-16 pt-8 border-t border-slate-800">
             <h2 className="text-2xl font-bold text-white mb-6">
-              More Cars You Might Like in Bangladesh
+              More Bikes You Might Like in Bangladesh
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {similarCars.map((sim) => {
+              {similarBikes.map((sim) => {
                 const sId = sim._id || sim.id;
                 const simImg =
                   (sim.images && sim.images[0]) ||
-                  "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?q=80&w=800&auto=format&fit=crop";
+                  "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=800&auto=format&fit=crop";
                 return (
                   <Link
                     key={sId}
-                    href={`/cars/${sId}`}
+                    href={`/bikes/${sId}`}
                     className="group rounded-2xl overflow-hidden border border-slate-800 bg-slate-900/60 hover:bg-slate-900 transition flex flex-col justify-between"
                   >
                     <div>
@@ -397,16 +390,16 @@ export default async function CarDetailsPage({ params }) {
                         className="w-full aspect-[16/10] object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="p-4">
-                        <div className="text-sm font-bold text-white group-hover:text-amber-400 transition-colors">
+                        <div className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">
                           {sim.make} {sim.model} {sim.trim || ""}
                         </div>
                         <div className="text-xs text-slate-400 mt-1">
-                          {sim.year} • {sim.fuel_type || "Petrol"} • {sim.location?.city || "Dhaka"}
+                          {sim.engine_cc}cc • {sim.year} • {sim.location?.city || "Dhaka"}
                         </div>
                       </div>
                     </div>
                     <div className="p-4 pt-0">
-                      <span className="text-sm font-extrabold text-amber-400">
+                      <span className="text-sm font-extrabold text-emerald-400">
                         {formatBDPrice(sim.price_bdt)}
                       </span>
                     </div>

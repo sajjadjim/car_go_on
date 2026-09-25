@@ -3,31 +3,26 @@ import Navbar from "./navbar/page";
 import Footer from "./footer/page";
 import AuthProvider from "./context/AuthContext";
 
-// export const metadata = {
-//   title: "Car GoON",
-//   description: "Car GoON app",
-// };
-
-// app/layout.jsx
 export const metadata = {
-  title: "Car GoON",
-  description: "Car GoON app",
+  title: "CarGoON BD | Buy & Sell Cars and Bikes in Bangladesh",
+  description: "Bangladesh's premier marketplace for buying and selling cars and bikes at current BD market prices. Verified listings, BRTA registration info, and direct seller contact.",
   icons: {
-    icon: "/public/car.png",           // if you put it in /public or /app
-    apple: "/apple-icon.png",       // 180x180
+    icon: "/car.png",
     shortcut: "/favicon.ico",
   },
-  themeColor: "#0f172a",            // nice dark tab color on mobile
 };
 
+export const viewport = {
+  themeColor: "#020617",
+};
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <html lang="en" className="dark">
+      <body className="bg-slate-950 text-slate-100 antialiased min-h-screen flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
         <AuthProvider>
           <Navbar />
-          <main style={{ flex: 1 }}>{children}</main>
+          <main className="flex-1">{children}</main>
           <Footer />
         </AuthProvider>
       </body>

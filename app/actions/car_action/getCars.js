@@ -3,13 +3,11 @@
 import dbConnect from "@/lib/dbConnect";
 
 export const getCars = async () => {
-
-    try {
-        const products = await dbConnect('cars').find({}).toArray();
-        return products;
-
-    } catch (error) {
-        console.error("Error fetching products:", error);
-        throw new Error("Failed to fetch products");
-    }
-}
+  try {
+    const products = await dbConnect("cars").find({}).sort({ _id: -1 }).toArray();
+    return JSON.parse(JSON.stringify(products));
+  } catch (error) {
+    console.error("Error fetching cars:", error);
+    return [];
+  }
+};

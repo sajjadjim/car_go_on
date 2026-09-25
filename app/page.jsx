@@ -1,15 +1,12 @@
-// app/page.jsx
 import { redirect } from "next/navigation";
 
 export const metadata = {
-  title: "Car GoON",
-  description: "Car GoON app",
-  icons: {
-    icon: "/public/car.png",           // if you put it in /public or /app
-    apple: "/apple-icon.png",       // 180x180
-    shortcut: "/favicon.ico",
-  },
-  themeColor: "#0f172a",            // nice dark tab color on mobile
+  title: "CarGoON BD | Bangladesh Car & Bike Marketplace",
+  description: "Buy and sell cars and bikes in Bangladesh with verified pricing in BDT.",
+};
+
+export const viewport = {
+  themeColor: "#020617",
 };
 
 export default function Page() {

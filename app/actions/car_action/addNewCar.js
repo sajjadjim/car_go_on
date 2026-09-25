@@ -1,16 +1,16 @@
 "use server";
 
 import dbConnect from "@/lib/dbConnect";
+import { revalidatePath } from "next/cache";
 
-export const  addNewCar = async (carData) => {
-    try {
-        const result = await dbConnect('cars').insertOne(caraData);
-        // After the data update, this path revalidates the cache store data clear and new Data Taken from this link
-        revalidatePath('/cars');
-        return result;
-    } catch (error) {
-        console.error("Error posting data:", error);
-        return new Response("Failed to post data", { status: 500 });
-    }
-
-}
+export const addNewCar = async (carData) => {
+  try {
+    const result = await dbConnect("cars").insertOne(carData);
+    revalidatePath("/cars");
+    revalidatePath("/home");
+    return { success: true, insertedId: result.insertedId.toString() };
+  } catch (error) {
+    console.error("Error posting car data:", error);
+    throw new Error(error.message || "Failed to post car data");
+  }
+};
